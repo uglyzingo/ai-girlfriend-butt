@@ -27,12 +27,12 @@ if not OPENAI_API_KEY:
 client = OpenAI(api_key=OPENAI_API_KEY)
 
 # -----------------------------------
-# STATIC KATE IMAGES (YOUR 3 PHOTOS)
+# STATIC KATE IMAGES (POSTIMAGES URLs)
 # -----------------------------------
 KATE_IMAGES = [
-    "https://i.imgur.com/x3EHvD5.jpg",
-    "https://i.imgur.com/qog3iy6.jpg",
-    "https://i.imgur.com/VsJVQuy.jpg"
+    "https://i.postimg.cc/rmgDytKk/kate1.jpg",
+    "https://i.postimg.cc/cHDJGy5j/Kate2.jpg",
+    "https://i.postimg.cc/x1KTTb4B/Kate3.jpg"
 ]
 
 def get_kate_picture():
