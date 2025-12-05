@@ -33,7 +33,9 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 KATE_IMAGES = [
     "https://i.postimg.cc/rmgDytKk/kate1.jpg",
     "https://i.postimg.cc/cHDJGy5j/Kate2.jpg",
-    "https://i.postimg.cc/x1KTTb4B/Kate3.jpg"
+    "https://i.postimg.cc/x1KTTb4B/Kate3.jpg",
+    "https://i.postimg.cc/Tw4pW5vn/Kate4.jpg"
+    
 ]
 
 def get_kate_picture():
