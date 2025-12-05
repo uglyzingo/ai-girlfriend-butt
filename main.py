@@ -26,6 +26,7 @@ if not OPENAI_API_KEY:
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
+
 # -----------------------------------
 # STATIC KATE IMAGES (POSTIMAGES URLs)
 # -----------------------------------
@@ -78,32 +79,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # -----------------------------------
-# MAIN CHAT + PICTURE LOGIC
+# MAIN CHAT + PICTURE LOGIC (FIXED PRIORITY)
 # -----------------------------------
 async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text.lower()
 
     # -----------------------------------
-    # 1) BASIC PHOTO REQUEST -> static image
+    # 1) SPECIFIC PHOTO REQUEST -> AI GENERATED (CHECK FIRST)
     # -----------------------------------
-    basic_keywords = ["picture", "photo", "pic", "foto"]
 
-    if any(word in user_text for word in basic_keywords):
-        img = get_kate_picture()
-        await update.message.reply_photo(photo=img, caption="Aquí estoy mi amor ❤️")
-        return
-
-    # -----------------------------------
-    # 2) SPECIFIC PHOTO REQUEST -> AI generated
-    # -----------------------------------
-    specific_keywords = ["in a", "wearing", "at the", "vestida", "en la", "en el"]
-
+    # "picture of you", "foto tuya"
     if "picture of you" in user_text or "foto tuya" in user_text:
         prompt = f"realistic romantic portrait of Kate {user_text}"
         url = generate_picture(prompt)
         await update.message.reply_photo(photo=url, caption="¿Te gusto así, bebé? 😘")
         return
 
+    # Phrases like: "in a", "wearing", "at the", "vestida", "en la", "en el"
+    specific_keywords = ["in a", "wearing", "at the", "vestida", "en la", "en el"]
     if any(word in user_text for word in specific_keywords):
         prompt = f"realistic full-body photo of Kate {user_text}"
         url = generate_picture(prompt)
@@ -111,7 +104,16 @@ async def chat(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     # -----------------------------------
-    # 3) OTHERWISE -> normal AI reply
+    # 2) BASIC PHOTO REQUEST -> STATIC IMAGE (CHECK AFTER AI)
+    # -----------------------------------
+    basic_keywords = ["picture", "photo", "pic", "foto"]
+    if any(word in user_text for word in basic_keywords):
+        img = get_kate_picture()
+        await update.message.reply_photo(photo=img, caption="Aquí estoy mi amor ❤️")
+        return
+
+    # -----------------------------------
+    # 3) OTHERWISE -> NORMAL CHAT RESPONSE
     # -----------------------------------
     reply = ask_ai(user_text)
     await update.message.reply_text(reply)
